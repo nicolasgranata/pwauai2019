@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetGain;
+using PwaUai2019.Web.Controllers;
+using PwaUai2019.Web.Repositories;
 
 namespace PwaUai2019.Web
 {
@@ -31,8 +34,21 @@ namespace PwaUai2019.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton(sp =>
+            {
+                var provider = new NodeProvider
+                {
+                    Credential = new System.Net.NetworkCredential("neo4j", "pwauai2019"),
+                    DefaultContentType = "application/json",
+                    DefaultEncoding = "UTF-8",
+                    UrlRoot = "http://localhost:7474/db/data/"
+                };
+                return provider;
+            });
+
+            services.AddTransient<IRepository<Movie>, Neo4jRepository<Movie>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
