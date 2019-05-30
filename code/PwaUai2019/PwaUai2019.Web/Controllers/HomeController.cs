@@ -12,18 +12,14 @@ namespace PwaUai2019.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRepository<Alumno> _nodeProvider;
+        private readonly IRepository<Aula> _nodeProvider;
 
-        public HomeController(IRepository<Alumno> nodeProvider)
+        public HomeController(IRepository<Aula> nodeProvider)
         {
             _nodeProvider = nodeProvider;
         }
         public IActionResult Index()
         {
-            Alumno alumno = new Alumno() { Legajo = 1234, Nombre = "Fernando", Apellido = "Perez" };
-
-            _nodeProvider.Add(alumno);
-
             return View();
         }
 

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetGain;
 using PwaUai2019.Web.Controllers;
+using PwaUai2019.Web.Models;
 using PwaUai2019.Web.Repositories;
 
 namespace PwaUai2019.Web
@@ -48,7 +49,8 @@ namespace PwaUai2019.Web
                 return provider;
             });
 
-            services.AddTransient<IRepository<Movie>, Neo4jRepository<Movie>>();
+            services.AddTransient<IRepository<Aula>, Neo4jRepository<Aula>>();
+            services.AddTransient<IRepository<Cursada>, Neo4jRepository<Cursada>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
