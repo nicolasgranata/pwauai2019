@@ -10,15 +10,29 @@ namespace PwaUai2019.Web.Controllers
 {
     public class AulaController : Controller
     {
-        private readonly IRepository<Aula> _nodeProvider;
+        private readonly AulaRepository _aulaRepository;
 
-        public AulaController(IRepository<Aula> nodeProvider)
+        public AulaController(AulaRepository aulaRepository)
         {
-            _nodeProvider = nodeProvider;
+            _aulaRepository = aulaRepository;
         }
 
         public IActionResult Index()
         {
+            IEnumerable<Aula> aulas = _aulaRepository.GetAll();
+            return View(aulas);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Aula aula)
+        {
+            _aulaRepository.Add(aula);
             return View();
         }
     }

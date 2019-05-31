@@ -11,5 +11,6 @@ namespace PwaUai2019.Web.Models
         public int Numero { get; set; }
         public int Piso { get; set; }
         public int Capacidad { get; set; }
+        public string Label { get; set; }
     }
 }
