@@ -13,6 +13,12 @@ namespace PwaUai2019.Web.Controllers
     {
         public IActionResult Index()
         {
+            List<Cursada> cursadas = new List<Cursada>();
+            return View(cursadas);
+        }
+
+        public IActionResult Create()
+        {
             return View();
         }
 

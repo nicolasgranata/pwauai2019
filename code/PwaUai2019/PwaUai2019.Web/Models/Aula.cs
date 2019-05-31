@@ -8,9 +8,14 @@ namespace PwaUai2019.Web.Models
     public class Aula
     {
         public long Id { get; set; }
+
         public int Numero { get; set; }
+
         public int Piso { get; set; }
+
         public int Capacidad { get; set; }
-        public string Label { get; set; }
+
+        public string Nombre => $"P{Piso.ToString()}N{Numero.ToString()}";
+
     }
 }
