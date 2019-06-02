@@ -16,6 +16,12 @@ namespace PwaUai2019.Web.Services
         /// 0 si la cantidad de alumnos supera la capacidad
         /// 1 si la cursada se crea correctamente
         /// </returns>
-        int CreateCursada(Cursada cursada);
+        int Add(Cursada cursada);
+
+        void Delete(long id);
+
+        IEnumerable<Cursada>GetAll();
+
+        Cursada Get(long id);
     }
 }

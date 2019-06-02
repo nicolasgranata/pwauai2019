@@ -1,0 +1,98 @@
+﻿@model PwaUai2019.Web.Models.Aula
+
+@{
+    ViewData["Title"] = "Detalles Aula";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Aula @Html.DisplayFor(model => model.Nombre)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Piso)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Piso)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Capacidad)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Capacidad)
+        </dd>
+    </dl>
+
+    <h4>Cursadas</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).Carrera)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).Materia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).Comision)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).Turno)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).Dia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).Horario)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cursadas.ElementAt(0).CantidadAlumnos)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Cursadas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Carrera)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Materia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comision)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Turno)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Dia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Horario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadAlumnos)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Regresar al listado</a>
+</div>

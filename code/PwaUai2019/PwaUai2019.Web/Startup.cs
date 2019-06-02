@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Neo4jClient;
-using PwaUai2019.Web.Models;
 using PwaUai2019.Web.Repositories;
 using PwaUai2019.Web.Services;
 
@@ -43,6 +42,7 @@ namespace PwaUai2019.Web
             services.AddSingleton<AulaRepository>();
             services.AddSingleton<CursadaRepository>();
 
+            services.AddSingleton<IAulaService, AulaService>();
             services.AddSingleton<ICursadaService, CursadaService>();
         }
 

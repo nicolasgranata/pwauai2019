@@ -18,7 +18,7 @@ namespace PwaUai2019.Web.Services
             _aulaRepository = aulaRepository;
         }
 
-        public int CreateCursada(Cursada cursada)
+        public int Add(Cursada cursada)
         {
             var aula = _aulaRepository.Get(cursada.Aula);
             
@@ -27,13 +27,41 @@ namespace PwaUai2019.Web.Services
                 return 0;
             }
 
-            var count = _cursadaRepository.GetAll().Count();
+            if (ValidateAvailability(cursada, aula.Cursadas.ToList()))
+            {
+                var count = _cursadaRepository.GetAll().Count();
 
-            cursada.Id = count + 1;
+                cursada.Id = count + 1;
 
-            _cursadaRepository.Add(cursada);
+                _cursadaRepository.Add(cursada);
 
-            return 1;
+                return 1;
+            }
+
+            return 2;
         }
+
+        public void Delete(long id)
+        {
+            _cursadaRepository.Delete(id);
+        }
+
+        public Cursada Get(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Cursada> GetAll()
+        {
+            return _cursadaRepository.GetAll();
+        }
+
+        private bool ValidateAvailability(Cursada cursadaToAdd, List<Cursada> cursadasCurrent)
+        {
+            return !cursadasCurrent.Any(x => x.Turno == cursadaToAdd.Turno & 
+                x.Comision.ToUpper() == cursadaToAdd.Comision.ToUpper() && x.Dia == cursadaToAdd.Dia);
+        }
+
+
     }
 }

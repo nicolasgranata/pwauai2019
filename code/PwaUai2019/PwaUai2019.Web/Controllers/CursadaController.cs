@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PwaUai2019.Web.Models;
-using PwaUai2019.Web.Repositories;
 using PwaUai2019.Web.Services;
 using PwaUai2019.Web.ViewModels;
 
@@ -13,27 +9,25 @@ namespace PwaUai2019.Web.Controllers
 {
     public class CursadaController : Controller
     {
-        private readonly CursadaRepository _cursadaRepository;
-        private readonly AulaRepository _aulaRepository;
+        private readonly IAulaService _aulaService;
         private readonly ICursadaService _cursadaService;
 
-        public CursadaController(ICursadaService cursadaService, CursadaRepository cursadaRepository, AulaRepository aulaRepository)
+        public CursadaController(ICursadaService cursadaService, IAulaService aulaService)
         {
-            _cursadaRepository = cursadaRepository;
-            _aulaRepository = aulaRepository;
             _cursadaService = cursadaService;
+            _aulaService = aulaService;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Cursada> cursadas = _cursadaRepository.GetAll();
+            IEnumerable<Cursada> cursadas = _cursadaService.GetAll();
             return View(cursadas);
         }
 
         public IActionResult Create()
         {
             var cursadaViewModel = new CursadaCreateViewModel();
-            cursadaViewModel.AulasDisponibles = _aulaRepository.GetAll();
+            cursadaViewModel.AulasDisponibles = _aulaService.GetAll();
             return View(cursadaViewModel);
         }
 
@@ -42,16 +36,21 @@ namespace PwaUai2019.Web.Controllers
         public IActionResult Create(CursadaCreateViewModel cursadaCreateViewModel)
         {
             var cursada = cursadaCreateViewModel.Cursada;
-            var result = _cursadaService.CreateCursada(cursada);
+            var result = _cursadaService.Add(cursada);
             if (result == 1)
             {
                return RedirectToAction("Index");
+            }
+            else if (result == 0)
+            {
+                ModelState.AddModelError("Cursada.Aula", "Capacidad del aula excedida");
+                return View(cursadaCreateViewModel);
             }
             else
             {
                 ModelState.AddModelError("Cursada.Aula", "Capacidad del aula excedida");
                 return View(cursadaCreateViewModel);
-            }           
+            }
         }
 
         public IActionResult Privacy()
@@ -62,7 +61,7 @@ namespace PwaUai2019.Web.Controllers
         [HttpGet]
         public IActionResult Delete(long id)
         {
-            var cursada = _cursadaRepository.Get(id);
+            var cursada = _cursadaService.Get(id);
             return View(cursada);
         }
 
@@ -70,7 +69,7 @@ namespace PwaUai2019.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCursada(long id)
         {
-            _cursadaRepository.Delete(id);
+            _cursadaService.Delete(id);
             return RedirectToAction("Index");
         }
 

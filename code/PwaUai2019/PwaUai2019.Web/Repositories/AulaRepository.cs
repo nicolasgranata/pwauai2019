@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Neo4jClient;
 using PwaUai2019.Web.Models;
 
@@ -19,10 +16,6 @@ namespace PwaUai2019.Web.Repositories
 
         public void Add(Aula entity)
         {
-            var id = GetAll().Count();
-
-            entity.Id = id + 1;
-
             _graphClient.Cypher
                 .Create("(aula:Aula {newAula})")
                 .WithParam("newAula", entity)
@@ -49,6 +42,8 @@ namespace PwaUai2019.Web.Repositories
         public Aula Get(long id)
         {
             var queryResults = _graphClient.Cypher
+                .OptionalMatch("(aula:Aula)")
+                .Where((Aula aula) => aula.Id == id)
                 .OptionalMatch("(aula:Aula)-[CURSADA]-(cursada:Cursada)")
                 .Where((Aula aula) => aula.Id == id)
                 .Return((aula, cursada) => new
@@ -62,6 +57,16 @@ namespace PwaUai2019.Web.Repositories
             result.Cursadas = queryResults.Cursadas;
 
             return result;
+        }
+
+        public void Update(Aula entity)
+        {
+            _graphClient.Cypher
+                .Match("(aula:Aula)")
+                .Where((Aula aula) => aula.Id == entity.Id)
+                .Set("aula = {updateAula}")
+                .WithParam("updateAula", entity)
+                .ExecuteWithoutResults();
         }
     }
 }
