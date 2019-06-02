@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using PwaUai2019.Web.Helpers;
 using PwaUai2019.Web.Models;
 
 namespace PwaUai2019.Web.ViewModels
@@ -28,6 +30,8 @@ namespace PwaUai2019.Web.ViewModels
             };
 
             AulasDisponibles = new List<Aula>();
+
+            Carreras = CarreraHelper.GetCarreras();
         }
 
         public Cursada Cursada { get; set; }
@@ -37,5 +41,8 @@ namespace PwaUai2019.Web.ViewModels
         public List<Turno> Turnos { get; set; }
 
         public List<Day> Dias { get; set; }
+
+        [DisplayName("Carrera")]
+        public List<string> Carreras { get; set; }
     }
 }

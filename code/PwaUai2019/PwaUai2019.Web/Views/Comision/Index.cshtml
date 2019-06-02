@@ -1,0 +1,45 @@
+﻿@model PwaUai2019.Web.ViewModels.ComisionViewModel
+
+@{
+    ViewData["Title"] = "Comisiones";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Comisiones</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <form asp-action="Cursada" asp-controller="Comision" data-ajax="true" data-ajax-method="GET"
+                  data-ajax-mode="replace" data-ajax-update="#ajaxResult">
+                <div class="form-group">
+                    <label asp-for="Carrera" class="control-label"></label>
+                    <select id="carrera" asp-for="Carrera" class="form-control"
+                            asp-items="@(new SelectList(Model.Carreras))">
+                        <option class="form-control">Seleccione una carrera</option>
+                    </select>
+                    <span asp-validation-for="Carrera" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Comision" class="control-label"></label>
+                    <input id="comision" asp-for="Comision" class="form-control" />
+                    <span asp-validation-for="Comision" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="ajaxResult">
+    @await Html.PartialAsync("_IndexPartial", Model.Cursadas)
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

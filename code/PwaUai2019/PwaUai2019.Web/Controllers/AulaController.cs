@@ -31,7 +31,7 @@ namespace PwaUai2019.Web.Controllers
         public IActionResult Create(Aula aula)
         {
             _aulaService.Add(aula);
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

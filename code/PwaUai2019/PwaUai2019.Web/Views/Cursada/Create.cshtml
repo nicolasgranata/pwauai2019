@@ -19,7 +19,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="Cursada.Carrera" class="control-label"></label>
-                <input asp-for="Cursada.Carrera" class="form-control" />
+                <select asp-for="Cursada.Carrera" class="form-control"
+                        asp-items="@(new SelectList(Model.Carreras))">
+                    <option class="form-control">Seleccione una carrera</option>
+                </select>
                 <span asp-validation-for="Cursada.Carrera" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -54,12 +57,12 @@
                 <span asp-validation-for="Cursada.Comision" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cursada.Aula" class="control-label"></label>
-                <select asp-for="Cursada.Aula" class="form-control"
+                <label asp-for="Cursada.AulaId" class="control-label"></label>
+                <select asp-for="Cursada.AulaId" class="form-control"
                         asp-items="@(new SelectList(Model.AulasDisponibles, "Id", "Nombre"))">
                     <option class="form-control">Seleccione un aula</option>
                 </select>
-                <span asp-validation-for="Cursada.Aula" class="text-danger"></span>
+                <span asp-validation-for="Cursada.AulaId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using PwaUai2019.Web.Helpers;
 
 namespace PwaUai2019.Web.Models
 {
@@ -26,6 +27,8 @@ namespace PwaUai2019.Web.Models
 
         public string Comision { get; set; }
 
-        public long Aula { get; set; }
+        public long AulaId { get; set; }
+
+        public Aula Aula { get; set; }
     }
 }

@@ -1,16 +1,22 @@
 ﻿@model IEnumerable<PwaUai2019.Web.Models.Cursada>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cursadas";
 }
 
 <div class="text-center">
     <h1 class="display-4">Cursadas</h1>
 </div>
 
-<p>
-    <a asp-action="Create">Crear nueva</a>
-</p>
+<div class="d-flex p-2">
+    <p class="p-2">
+        <a asp-action="Create">Crear nueva</a>
+    </p>
+    <p class="p-2">
+        <a asp-action="Create">Cursadas sin aula</a>
+    </p>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -66,7 +72,7 @@
                 @Html.DisplayFor(modelItem => item.Comision)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Aula)
+                @Html.DisplayFor(modelItem => item.Aula.Nombre)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

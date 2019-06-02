@@ -18,7 +18,7 @@ namespace PwaUai2019.Web.Repositories
         {
             _graphClient.Cypher
                 .Match("(aula:Aula)")
-                .Where((Aula aula) => aula.Id == entity.Aula)
+                .Where((Aula aula) => aula.Id == entity.AulaId)
                 .Create("(aula)-[:CURSADA]->(cursada:Cursada {newCursada})")
                 .WithParam("newCursada", entity)
                 .ExecuteWithoutResults();
@@ -35,10 +35,26 @@ namespace PwaUai2019.Web.Repositories
 
         public IEnumerable<Cursada> GetAll()
         {
-            return _graphClient.Cypher
+           var queryResults = _graphClient.Cypher
                  .Match("(cursada:Cursada)")
-                 .Return(cursada => cursada.As<Cursada>())
-                 .Results;
+                 .OptionalMatch("(cursada:Cursada)-[CURSADA]-(aula:Aula)")
+                 .Return((cursada, aula) => new
+                  {
+                      Cursadas = cursada.CollectAs<Cursada>(),
+                      Aula = aula.CollectAs<Aula>()
+                 })
+                .Results.FirstOrDefault();
+
+            List<Cursada> results = new List<Cursada>();
+
+            foreach(var res in queryResults.Cursadas)
+            {
+                res.Aula = queryResults.Aula.Where(x => x.Id == res.AulaId).FirstOrDefault();
+
+                results.Add(res);
+            }
+            
+            return results;
         }
 
         public Cursada Get(long id)

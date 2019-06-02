@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PwaUai2019.Web.Models
+namespace PwaUai2019.Web.Helpers
 {
     public enum Turno
     {
