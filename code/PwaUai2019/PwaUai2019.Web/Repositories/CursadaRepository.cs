@@ -19,8 +19,19 @@ namespace PwaUai2019.Web.Repositories
         public void Add(Cursada entity)
         {
             _graphClient.Cypher
-                .Create("(cursada:Cursada {newCursada})")
+                .Match("(aula:Aula)")
+                .Where((Aula aula) => aula.Id == entity.Aula)
+                .Create("(aula)-[:CURSADA]->(cursada:Cursada {newCursada})")
                 .WithParam("newCursada", entity)
+                .ExecuteWithoutResults();
+        }
+
+        public void Delete(long id)
+        {
+            _graphClient.Cypher
+                .Match("(cursada:Cursada)")
+                .Where((Cursada cursada) => cursada.Id == id)
+                .Delete("cursada")
                 .ExecuteWithoutResults();
         }
 
@@ -28,8 +39,17 @@ namespace PwaUai2019.Web.Repositories
         {
             return _graphClient.Cypher
                  .Match("(cursada:Cursada)")
-                 .Return(aula => aula.As<Cursada>())
+                 .Return(cursada => cursada.As<Cursada>())
                  .Results;
+        }
+
+        public Cursada Get(long id)
+        {
+            return _graphClient.Cypher
+                .Match("(cursada:Cursada)")
+                .Where((Cursada cursada) => cursada.Id == id)
+                .Return(cursada => cursada.As<Cursada>())
+                .Results.FirstOrDefault();
         }
     }
 }

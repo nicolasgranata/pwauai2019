@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Neo4jClient;
 using PwaUai2019.Web.Models;
 using PwaUai2019.Web.Repositories;
+using PwaUai2019.Web.Services;
 
 namespace PwaUai2019.Web
 {
@@ -40,6 +41,9 @@ namespace PwaUai2019.Web
             });
 
             services.AddSingleton<AulaRepository>();
+            services.AddSingleton<CursadaRepository>();
+
+            services.AddSingleton<ICursadaService, CursadaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

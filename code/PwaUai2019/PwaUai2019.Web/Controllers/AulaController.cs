@@ -35,5 +35,21 @@ namespace PwaUai2019.Web.Controllers
             _aulaRepository.Add(aula);
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Delete(long id)
+        {
+            var aula = _aulaRepository.Get(id);
+            return View(aula);
+        }
+
+        [HttpPost("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteAula(long id)
+        {
+            _aulaRepository.Delete(id);
+            return RedirectToAction("Index");
+        }
+
     }
 }
