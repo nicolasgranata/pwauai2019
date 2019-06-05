@@ -8,20 +8,17 @@ namespace PwaUai2019.Web.Services
 {
     public interface ICursadaService
     {
-        /// <summary>
-        /// Metodo para crear una cursada
-        /// </summary>
-        /// <param name="cursada"></param>
-        /// <returns>
-        /// 0 si la cantidad de alumnos supera la capacidad
-        /// 1 si la cursada se crea correctamente
-        /// </returns>
-        int Add(Cursada cursada);
+        void Add(Cursada cursada);
 
         void Delete(long id);
 
         IEnumerable<Cursada>GetAll();
 
         Cursada Get(long id);
+
+        void AssignAula();
+
+        IEnumerable<Cursada> GetAllWithoutAula();
+
     }
 }

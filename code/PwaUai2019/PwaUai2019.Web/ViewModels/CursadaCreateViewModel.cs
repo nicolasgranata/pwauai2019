@@ -29,14 +29,11 @@ namespace PwaUai2019.Web.ViewModels
                 Day.Sabado
             };
 
-            AulasDisponibles = new List<Aula>();
-
             Carreras = CarreraHelper.GetCarreras();
         }
 
         public Cursada Cursada { get; set; }
 
-        public IEnumerable<Aula> AulasDisponibles { get; set; }
 
         public List<Turno> Turnos { get; set; }
 

@@ -27,7 +27,6 @@ namespace PwaUai2019.Web.Controllers
         public IActionResult Create()
         {
             var cursadaViewModel = new CursadaCreateViewModel();
-            cursadaViewModel.AulasDisponibles = _aulaService.GetAll();
             return View(cursadaViewModel);
         }
 
@@ -36,21 +35,11 @@ namespace PwaUai2019.Web.Controllers
         public IActionResult Create(CursadaCreateViewModel cursadaCreateViewModel)
         {
             var cursada = cursadaCreateViewModel.Cursada;
-            var result = _cursadaService.Add(cursada);
-            if (result == 1)
-            {
-               return RedirectToAction("Index");
-            }
-            else if (result == 0)
-            {
-                ModelState.AddModelError("Cursada.Aula", "Capacidad del aula excedida");
-                return View(cursadaCreateViewModel);
-            }
-            else
-            {
-                ModelState.AddModelError("Cursada.Aula", "Capacidad del aula excedida");
-                return View(cursadaCreateViewModel);
-            }
+
+            _cursadaService.Add(cursada);
+
+            return RedirectToAction("Index");
+
         }
 
         public IActionResult Privacy()
@@ -65,13 +54,33 @@ namespace PwaUai2019.Web.Controllers
             return View(cursada);
         }
 
-        [HttpPost("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCursada(long id)
         {
             _cursadaService.Delete(id);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Get(long id)
+        {
+            return View("Detail", _aulaService.Get(id));
+        }
+
+        [HttpGet]
+        public IActionResult Assign()
+        {
+            _cursadaService.AssignAula();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult GetNoAula()
+        {
+            return View("NoAula", _cursadaService.GetAllWithoutAula());
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

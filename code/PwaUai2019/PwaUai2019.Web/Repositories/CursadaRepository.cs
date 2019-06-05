@@ -17,11 +17,23 @@ namespace PwaUai2019.Web.Repositories
         public void Add(Cursada entity)
         {
             _graphClient.Cypher
-                .Match("(aula:Aula)")
+                .OptionalMatch("(aula:Aula)")
                 .Where((Aula aula) => aula.Id == entity.AulaId)
-                .Create("(aula)-[:CURSADA]->(cursada:Cursada {newCursada})")
+                .Create("(cursada:Cursada {newCursada})")
                 .WithParam("newCursada", entity)
                 .ExecuteWithoutResults();
+        }
+
+        public void UpdateRelationship(Cursada entity)
+        {
+            _graphClient.Cypher
+                .Match("(aula:Aula),(cursada: Cursada)")
+                .Where((Aula aula) => aula.Id == entity.AulaId)
+                .AndWhere((Cursada cursada) => cursada.Id == entity.Id)
+                .CreateUnique("(aula)-[:CURSADA]->(cursada)")
+                .ExecuteWithoutResults();
+
+            Update(entity);
         }
 
         public void Delete(long id)
@@ -29,7 +41,9 @@ namespace PwaUai2019.Web.Repositories
             _graphClient.Cypher
                 .Match("(cursada:Cursada)")
                 .Where((Cursada cursada) => cursada.Id == id)
-                .Delete("cursada")
+                .OptionalMatch("(cursada:Cursada)<-[r]-()")
+                .Where((Cursada cursada) => cursada.Id == id)
+                .Delete("r, cursada")
                 .ExecuteWithoutResults();
         }
 
@@ -64,6 +78,16 @@ namespace PwaUai2019.Web.Repositories
                 .Where((Cursada cursada) => cursada.Id == id)
                 .Return(cursada => cursada.As<Cursada>())
                 .Results.FirstOrDefault();
+        }
+
+        public void Update(Cursada entity)
+        {
+            _graphClient.Cypher
+                .Match("(cursada:Cursada)")
+                .Where((Cursada cursada) => cursada.Id == entity.Id)
+                .Set("cursada = {updateCursada}")
+                .WithParam("updateCursada", entity)
+                .ExecuteWithoutResults();
         }
     }
 }

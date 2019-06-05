@@ -33,10 +33,29 @@ namespace PwaUai2019.Web.Repositories
 
         public IEnumerable<Aula> GetAll()
         {
-            return _graphClient.Cypher
+            var queryResults = _graphClient.Cypher
                 .Match("(aula:Aula)")
-                .Return(aula => aula.As<Aula>())
-                .Results;
+                .OptionalMatch("(aula:Aula)-[CURSADA]-(cursada:Cursada)")
+                 .Return((aula, cursada) => new
+                 {
+                     Cursadas = cursada.CollectAs<Cursada>(),
+                     Aula = aula.CollectAs<Aula>()
+                 })
+                .Results.FirstOrDefault();
+
+            List<Aula> results = new List<Aula>();
+
+            foreach (var res in queryResults.Aula)
+            {
+                res.Cursadas = queryResults.Cursadas.Where(x => x.AulaId == res.Id);
+
+                if (!results.Any(x => x.Id == res.Id))
+                {
+                    results.Add(res);
+                }
+             }
+            
+            return results;
         }
 
         public Aula Get(long id)
@@ -54,7 +73,7 @@ namespace PwaUai2019.Web.Repositories
                 .Results.FirstOrDefault();
 
             var result = queryResults.Aula;
-            result.Cursadas = queryResults.Cursadas;
+            result.Cursadas = queryResults.Cursadas.ToList();
 
             return result;
         }

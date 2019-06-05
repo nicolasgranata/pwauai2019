@@ -18,14 +18,13 @@ namespace PwaUai2019.Web.Services
             _aulaRepository = aulaRepository;
         }
 
-        public int Add(Cursada cursada)
+        public void Add(Cursada cursada)
         {
-            if (cursada.AulaId != 0)
-            {
-                return Validate(cursada);
-            }
+            var count = _cursadaRepository.GetAll().Count();
 
-            return AddCursada(cursada);         
+            cursada.Id = count + 1;
+
+            _cursadaRepository.Add(cursada);
         }
 
         public void Delete(long id)
@@ -35,7 +34,7 @@ namespace PwaUai2019.Web.Services
 
         public Cursada Get(long id)
         {
-            throw new NotImplementedException();
+            return _cursadaRepository.Get(id);
         }
 
         public IEnumerable<Cursada> GetAll()
@@ -43,52 +42,58 @@ namespace PwaUai2019.Web.Services
             return _cursadaRepository.GetAll();
         }
 
-        private int AddCursada(Cursada cursada)
+        public void AssignAula()
         {
-            var count = _cursadaRepository.GetAll().Count();
+            var cursadas = _cursadaRepository.GetAll().OrderBy(x => x.CantidadAlumnos);
 
-            cursada.Id = count + 1;
-
-            _cursadaRepository.Add(cursada);
-
-            return 1;
-        }
-
-        private int Validate(Cursada cursada)
-        {
-            if (!ValidateCapacity(cursada))
+            foreach (var c in cursadas)
             {
-                return 0;
-            }
+                var aula = GetAvailableAula(c);
 
-            return ValidateAvailability(cursada, _cursadaRepository.GetAll().ToList());
-        }
-
-        private int ValidateAvailability(Cursada cursadaToAdd, List<Cursada> cursadasCurrent)
-        {
-            var availability = !cursadasCurrent.Any(x => x.Turno == cursadaToAdd.Turno &
-                x.Comision.ToUpper() == cursadaToAdd.Comision.ToUpper() && x.Dia == cursadaToAdd.Dia);
-
-            if (availability)
-            {
-                return AddCursada(cursadaToAdd);
-            }
-            else
-            {
-                return 2;
+                if (aula != null)
+                {
+                    c.AulaId = aula.Id;
+                    _cursadaRepository.UpdateRelationship(c);
+                }
             }
         }
 
-        private bool ValidateCapacity(Cursada cursadaToAdd)
+        private Aula GetAvailableAula(Cursada cursadaToAdd)
         {
-            Aula aula = _aulaRepository.Get(cursadaToAdd.AulaId);
+           var aulas = _aulaRepository.GetAll();
 
-            if (aula.Capacidad < cursadaToAdd.CantidadAlumnos)
+            var aulasTemp = aulas.Where(x => x.Capacidad >= cursadaToAdd.CantidadAlumnos).OrderBy(x => x.Capacidad).ToList();
+
+            Aula aula = null;
+
+            foreach (var au in aulasTemp)
             {
-                return false;
+                if (au.Cursadas.Any())
+                {
+                    foreach (var cu in au.Cursadas.ToList())
+                    {
+                        if (cu.Turno == cursadaToAdd.Turno && cu.Dia == cursadaToAdd.Dia)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            aula = au;
+                        }
+                    }
+                }
+                else
+                {
+                    aula = au;
+                }
             }
 
-            return true;
+            return aula;
+        }
+
+        public IEnumerable<Cursada> GetAllWithoutAula()
+        {
+            return _cursadaRepository.GetAll().Where(x => x.AulaId == 0);
         }
     }
 }

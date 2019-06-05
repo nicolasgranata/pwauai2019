@@ -48,12 +48,6 @@
             @Html.DisplayFor(model => model.Dia)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Horario)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Horario)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Comision)
         </dt>
         <dd class="col-sm-10">
@@ -61,7 +55,7 @@
         </dd>
     </dl>
 
-    <form asp-action="DeleteCursada">
+    <form asp-action="DeleteCursada" asp-controller="Cursada">
         <input hidden asp-for="Id" class="form-control" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
         <a asp-action="Index">Regresar al listado</a>

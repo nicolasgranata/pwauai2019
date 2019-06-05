@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using PwaUai2019.Web.Helpers;
 
 namespace PwaUai2019.Web.Models
@@ -20,15 +21,11 @@ namespace PwaUai2019.Web.Models
 
         public Day Dia { get; set; }
 
-        [DataType(DataType.Time)]
-        [DisplayName("Horario")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm tt}")]
-        public DateTime Horario { get; set; }
-
         public string Comision { get; set; }
 
         public long AulaId { get; set; }
 
+        [JsonIgnore]
         public Aula Aula { get; set; }
     }
 }
