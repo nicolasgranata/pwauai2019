@@ -81,6 +81,26 @@ namespace PwaUai2019.Web.Controllers
             return View("NoAula", _cursadaService.GetAllWithoutAula());
         }
 
+        [HttpGet]
+        public IActionResult Edit(long id)
+        {
+            var cursadaEditViewModel = new CursadaEditViewModel()
+            {
+                Cursada = _cursadaService.Get(id)
+            };
+
+            return View(cursadaEditViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCursada(Cursada cursada)
+        {
+            _cursadaService.Update(cursada);
+
+            return RedirectToAction("Index");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

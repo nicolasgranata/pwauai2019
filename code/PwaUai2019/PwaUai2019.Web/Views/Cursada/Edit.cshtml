@@ -1,0 +1,67 @@
+﻿@model PwaUai2019.Web.ViewModels.CursadaEditViewModel
+
+@{
+    ViewData["Title"] = "Editar cursada";
+}
+
+<h1>Edit</h1>
+
+<h4>Cursada</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditCursada">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input hidden asp-for="Cursada.Id" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input hidden asp-for="Cursada.AulaId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Cursada.Materia" class="control-label"></label>
+                <input asp-for="Cursada.Materia" class="form-control" />
+                <span asp-validation-for="Cursada.Materia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cursada.Carrera" class="control-label"></label>
+                <input disabled asp-for="Cursada.Carrera" class="form-control" />
+                <span asp-validation-for="Cursada.Carrera" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cursada.CantidadAlumnos" class="control-label"></label>
+                <input asp-for="Cursada.CantidadAlumnos" class="form-control" />
+                <span asp-validation-for="Cursada.CantidadAlumnos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cursada.Turno" class="control-label"></label>
+                <select asp-for="Cursada.Turno" class="form-control"
+                        asp-items="@(new SelectList(Model.Turnos))">
+                    <option class="form-control">Seleccione un turno</option>
+                </select>
+                <span asp-validation-for="Cursada.Turno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cursada.Dia" class="control-label"></label>
+                <select asp-for="Cursada.Dia" class="form-control"
+                        asp-items="@(new SelectList(Model.Dias))">
+                    <option class="form-control">Seleccione un día</option>
+                </select>
+                <span asp-validation-for="Cursada.Dia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cursada.Comision" class="control-label"></label>
+                <input asp-for="Cursada.Comision" class="form-control" />
+                <span asp-validation-for="Cursada.Comision" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Regresar al listado</a>
+</div>
+

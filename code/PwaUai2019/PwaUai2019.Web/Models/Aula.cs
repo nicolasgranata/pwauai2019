@@ -30,5 +30,7 @@ namespace PwaUai2019.Web.Models
             return Nombre;
         }
 
+        [JsonIgnore]
+        public string Error { get; set; }
     }
 }

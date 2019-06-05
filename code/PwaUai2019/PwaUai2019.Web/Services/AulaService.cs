@@ -27,9 +27,16 @@ namespace PwaUai2019.Web.Services
             _aulaRepository.Add(aula);
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
+            if (_aulaRepository.Get(id).Cursadas.Any())
+            {
+                return false;
+            }
+
             _aulaRepository.Delete(id);
+
+            return true;
         }
 
         public Aula Get(long id)

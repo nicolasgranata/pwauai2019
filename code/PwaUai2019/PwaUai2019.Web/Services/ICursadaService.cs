@@ -20,5 +20,6 @@ namespace PwaUai2019.Web.Services
 
         IEnumerable<Cursada> GetAllWithoutAula();
 
+        void Update(Cursada cursada);
     }
 }

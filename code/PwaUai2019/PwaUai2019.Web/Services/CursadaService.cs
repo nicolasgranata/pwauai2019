@@ -95,5 +95,10 @@ namespace PwaUai2019.Web.Services
         {
             return _cursadaRepository.GetAll().Where(x => x.AulaId == 0);
         }
+
+        public void Update(Cursada cursada)
+        {
+            _cursadaRepository.Update(cursada);
+        }
     }
 }

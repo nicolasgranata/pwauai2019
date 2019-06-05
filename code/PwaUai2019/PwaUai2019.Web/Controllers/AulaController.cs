@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using PwaUai2019.Web.Extensions;
 using PwaUai2019.Web.Models;
 using PwaUai2019.Web.Repositories;
 using PwaUai2019.Web.Services;
@@ -37,16 +38,32 @@ namespace PwaUai2019.Web.Controllers
         [HttpGet]
         public IActionResult Delete(long id)
         {
+            Aula aula = TempData.Get<Aula>("Aula");
+
+            if (aula != null)
+            {           
+                ModelState.AddModelError("Error", "Existen cursadas asignadas al aula");
+
+                return View(aula);
+            }
+
             return View(_aulaService.Get(id));
         }
 
-        [HttpPost("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteAula(long id)
         {
-            _aulaService.Delete(id);
+            if (_aulaService.Delete(id))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData.Put("Aula", _aulaService.Get(id));
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Delete", id);
+            }
         }
 
         [HttpGet]

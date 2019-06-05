@@ -10,7 +10,7 @@ namespace PwaUai2019.Web.Services
     {
         void Add(Aula aula);
 
-        void Delete(long id);
+        bool Delete(long id);
 
         IEnumerable<Aula> GetAll();
 
