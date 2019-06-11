@@ -22,8 +22,9 @@ namespace PwaUai2019.Web.Controllers
         [HttpGet]
         public IActionResult Cursada(string carrera, string comision)
         {
-            var cursadas = _cursadaService.GetAll().Where(x => x.Carrera.ToUpper() == carrera.ToUpper() & x.Comision.ToUpper() == comision.ToUpper()); 
-            return PartialView("_IndexPartial", cursadas);
+            var cursada = _cursadaService.GetAll();
+
+            return PartialView("_IndexPartial", cursada);
         }
     }
 }
