@@ -20,7 +20,7 @@ namespace PwaUai2019.Web.Services
 
         public void Add(Cursada cursada)
         {
-            var count = _cursadaRepository.GetAll().Count();
+            var count = _cursadaRepository.MaxID();
 
             cursada.Id = count + 1;
 
@@ -44,8 +44,19 @@ namespace PwaUai2019.Web.Services
 
         public void AssignAula()
         {
-            var cursadas = _cursadaRepository.GetAll().OrderBy(x => x.CantidadAlumnos);
+            var cursadas = _cursadaRepository.GetAll();
 
+            //Limpio todas las aulas asignadas
+            foreach (var c in cursadas)
+            {
+                _cursadaRepository.DeleteRelationship(c);
+                c.AulaId = 0;
+                c.Aula = null;
+                Update(c);
+            }
+
+            cursadas = cursadas.OrderByDescending(x => x.CantidadAlumnos);
+            //Se asignan las Aulas
             foreach (var c in cursadas)
             {
                 var aula = GetAvailableAula(c);
@@ -65,29 +76,28 @@ namespace PwaUai2019.Web.Services
             var aulasTemp = aulas.Where(x => x.Capacidad >= cursadaToAdd.CantidadAlumnos).OrderBy(x => x.Capacidad).ToList();
 
             Aula aula = null;
-
+            //Se verifica que aula esta disponible, si tienen o no asignada otra cursada para ese turno.
             foreach (var au in aulasTemp)
             {
                 if (au.Cursadas.Any())
                 {
+                    bool Ocupada = false;
                     foreach (var cu in au.Cursadas.ToList())
                     {
-                        if (cu.Turno == cursadaToAdd.Turno && cu.Dia == cursadaToAdd.Dia)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            aula = au;
-                        }
+                        if (cu.Turno == cursadaToAdd.Turno && cu.Dia == cursadaToAdd.Dia) Ocupada = true;
+                    }
+                    if (!Ocupada)
+                    {
+                        aula = au;
+                        break;
                     }
                 }
                 else
                 {
                     aula = au;
+                    break;
                 }
             }
-
             return aula;
         }
 

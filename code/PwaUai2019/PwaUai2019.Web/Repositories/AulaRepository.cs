@@ -21,7 +21,16 @@ namespace PwaUai2019.Web.Repositories
                 .WithParam("newAula", entity)
                 .ExecuteWithoutResults();
         }
+        public int MaxID()
+        {
+            var queryResults = _graphClient.Cypher
+                .Match("(aula:Aula)")
+                .Return(aula => aula.As<Aula>())
+                .OrderByDescending("aula.Id")
+                .Results.FirstOrDefault();
 
+            return int.Parse(queryResults.Id.ToString());
+        }
         public void Delete(long id)
         {
             _graphClient.Cypher

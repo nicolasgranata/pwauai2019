@@ -36,6 +36,16 @@ namespace PwaUai2019.Web.Repositories
             Update(entity);
         }
 
+        public void DeleteRelationship(Cursada entity)
+        {
+            _graphClient.Cypher
+                .Match("(cursada: Cursada)")
+                .Where((Cursada cursada) => cursada.Id == entity.Id)
+                .OptionalMatch("(cursada:Cursada)<-[r]-()")
+                .Delete("r")
+                .ExecuteWithoutResults();
+        }
+
         public void Delete(long id)
         {
             _graphClient.Cypher
@@ -71,6 +81,17 @@ namespace PwaUai2019.Web.Repositories
             return results;
         }
 
+        public int MaxID()
+        {
+            var queryResults = _graphClient.Cypher
+                .Match("(cursada:Cursada)")
+                .Return(cursada => cursada.As<Cursada>())
+                .OrderByDescending("cursada.Id")
+                .Results.FirstOrDefault();
+
+            return int.Parse(queryResults.Id.ToString());
+        }
+
         public Cursada Get(long id)
         {
             return _graphClient.Cypher
@@ -89,5 +110,6 @@ namespace PwaUai2019.Web.Repositories
                 .WithParam("updateCursada", entity)
                 .ExecuteWithoutResults();
         }
+
     }
 }

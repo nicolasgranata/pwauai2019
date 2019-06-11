@@ -20,7 +20,7 @@ namespace PwaUai2019.Web.Services
 
         public void Add(Aula aula)
         {
-            var count = _aulaRepository.GetAll().Count();
+            var count = _aulaRepository.MaxID();
 
             aula.Id = count + 1;
 
