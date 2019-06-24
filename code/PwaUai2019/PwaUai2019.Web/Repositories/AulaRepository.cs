@@ -29,7 +29,7 @@ namespace PwaUai2019.Web.Repositories
                 .OrderByDescending("aula.Id")
                 .Results.FirstOrDefault();
 
-            return int.Parse(queryResults.Id.ToString());
+            return queryResults != null ? int.Parse(queryResults.Id.ToString()) : 0;
         }
         public void Delete(long id)
         {

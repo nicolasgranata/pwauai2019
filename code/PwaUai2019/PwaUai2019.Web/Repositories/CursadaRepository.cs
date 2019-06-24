@@ -89,7 +89,7 @@ namespace PwaUai2019.Web.Repositories
                 .OrderByDescending("cursada.Id")
                 .Results.FirstOrDefault();
 
-            return int.Parse(queryResults.Id.ToString());
+            return queryResults != null ? int.Parse(queryResults.Id.ToString()) : 0;
         }
 
         public Cursada Get(long id)
