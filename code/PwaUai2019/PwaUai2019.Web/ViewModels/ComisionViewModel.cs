@@ -11,7 +11,7 @@ namespace PwaUai2019.Web.ViewModels
         {
             Carreras = CarreraHelper.GetCarreras();
             Cursadas = new List<Cursada>();
-            Comision = CarreraHelper.GetComision();
+            Comisiones = CarreraHelper.GetComision();
         }
 
         [DisplayName("Carrera")]
@@ -19,7 +19,10 @@ namespace PwaUai2019.Web.ViewModels
 
         public string Carrera { get; set; }
 
-        public List<string> Comision { get; set; }
+        [DisplayName("Comisiones")]
+        public List<string> Comisiones { get; set; }
+
+        public string Comision { get; set; }
 
         public IEnumerable<Cursada> Cursadas { get; set; }
     }
