@@ -34,7 +34,7 @@ namespace PwaUai2019.Web
 
             services.AddSingleton<IGraphClient>(sp =>
             {
-                var graphClient = new GraphClient(new Uri("http://localhost:7687/db/data"), "neo4j", "pwauai2019");
+                var graphClient = new GraphClient(new Uri("http://localhost:7474/db/data"), "neo4j", "pwauai2019");
                 graphClient.Connect();
                 return graphClient;
             });

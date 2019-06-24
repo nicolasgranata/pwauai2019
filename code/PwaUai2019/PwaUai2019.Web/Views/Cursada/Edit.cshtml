@@ -4,10 +4,10 @@
     ViewData["Title"] = "Editar cursada";
 }
 
-<h1>Edit</h1>
+<div class="text-center">
+    <h1 class="jumbotron-heading">Editar Cursada</h1>
+</div>
 
-<h4>Cursada</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditCursada">
@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label asp-for="Cursada.Carrera" class="control-label"></label>
                 <input disabled asp-for="Cursada.Carrera" class="form-control" />
-                <input hidden asp-for="Cursada.Carrera" class="form-control"/>
+                <input hidden asp-for="Cursada.Carrera" class="form-control" />
                 <span asp-validation-for="Cursada.Carrera" class="text-danger"></span>
             </div>
             <div class="form-group">

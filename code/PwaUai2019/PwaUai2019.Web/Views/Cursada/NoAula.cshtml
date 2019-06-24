@@ -5,11 +5,11 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Cursadas sin aula asignable</h1>
+    <h1 class="jumbotron-heading">Cursadas sin aula asignable</h1>
 </div>
 
-<table class="table">
-    <thead>
+<table class="table table-bordered">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
@@ -35,30 +35,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Materia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Carrera)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadAlumnos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Turno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comision)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Materia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Carrera)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantidadAlumnos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Turno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comision)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -25,5 +25,20 @@ namespace PwaUai2019.Web.Helpers
 
             return carreras;
         }
+
+        public static List<string> GetComision()
+        {
+            var Comision = new List<string>()
+            {
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "K",
+            };
+
+            return Comision;
+        }
     }
 }

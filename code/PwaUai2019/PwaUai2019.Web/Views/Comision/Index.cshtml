@@ -5,14 +5,13 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Comisiones</h1>
+    <h1 class="jumbotron-heading">Comisiones</h1>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <div class="form-group">
-            <form asp-action="Cursada" asp-controller="Comision" data-ajax="true" data-ajax-method="GET"
-                  data-ajax-mode="replace" data-ajax-update="#ajaxResult">
+            <form asp-action="Cursada" asp-controller="Comision" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-update="#ajaxResult">
                 <div class="form-group">
                     <label asp-for="Carrera" class="control-label"></label>
                     <select id="carrera" asp-for="Carrera" class="form-control"
@@ -23,7 +22,10 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Comision" class="control-label"></label>
-                    <input id="comision" asp-for="Comision" class="form-control" />
+                    <select id="comision" asp-for="Comision" class="form-control" multiple=""
+                            asp-items="@(new SelectList(Model.Comision))">
+                        <option class="form-control">Seleccione una carrera</option>
+                    </select>
                     <span asp-validation-for="Comision" class="text-danger"></span>
                 </div>
                 <div class="form-group">
